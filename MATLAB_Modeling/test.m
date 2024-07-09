@@ -1,12 +1,32 @@
 clc; clear;
 % Input the matrix
 %
-%{
-%  tested correctly//  Iain R. example one 
+%
+
+%% Tracing
+%{ 
+MB_Res = [ 9	-12	-10	-5
+           2	-3	1	0
+           2	-1	-1	1
+           0	0	0	0 ];
+%}
+
+
+
+
+
+
+
+%%
+%
+% tested correctly//  Iain R. example one 
 MB_Res = [0  3 -1 0
           0 -1 1 0
           1  0 0 0
           0  0 0 0];
+
+
+
 %the expected output 0000100011  10010111101101
 %the  output         0000100011  01001111101101
 %}
@@ -34,12 +54,13 @@ MB_Res = [0  3 -1 0
 %the  output         000000011010001001000010111001100
 %}
 
-% 
+%{
  % tested correctly// Iain R. example three
   MB_Res = [0 0 1 0 ; 
             0 0 0 0 ; 
             1 0 0 0 ; 
            -1 0 0 0 ]; 
+%}
 %the expected output 0001110001110010
 %the  output         0001110001110010
 %}
@@ -80,7 +101,7 @@ MB_Res = [2 3 8 5
           2 3 8 5
           2 3 8 5];
 %}
-nU = 0;
-nL = 0;
+nU = 2;
+nL = 14;
 
 test_1 = CAVLC(MB_Res, nU,nL  )

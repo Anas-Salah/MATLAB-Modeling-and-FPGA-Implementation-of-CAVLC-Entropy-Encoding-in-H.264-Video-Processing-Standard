@@ -8,7 +8,7 @@ MB_Ready_Reverse = MBReadyReverse(MB_Res);
 %function [outTrOnesSign,TrailingOnesNum] = tOnesSign(MB_Ready_Reverse)
 %T1s = tTrailingOnesNum(MB_Ready_Reverse);
 [~,T1s] = tOnesSignAndNum(MB_Ready_Reverse); 
-NZQs = tCoeffNum(MB_Res);
+NZQs = tCoeffNum(MB_Ready_Reverse);
 
 %%%%%%%%%%%%%%%%%%%% The First Step %%%%%%%%%%%%%%%%%%%%%
 % - % Choose_Number_VLC_Table

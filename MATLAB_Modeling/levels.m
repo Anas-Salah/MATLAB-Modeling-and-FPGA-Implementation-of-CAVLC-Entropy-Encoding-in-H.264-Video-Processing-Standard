@@ -6,12 +6,16 @@ function bits = levels(NZQs,T1s,MB_Ready_Reverse)
 % i_trailing= T1s
  % New MB without any zeros
 noZeroMB = [];
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:length(MB_Ready_Reverse)
     if (MB_Ready_Reverse(i) ~= 0)
         noZeroMB = [noZeroMB MB_Ready_Reverse(i)];
     end
 end
-level  = noZeroMB(T1s +1 : NZQs);
+array_end = length(noZeroMB);
+
+level  = noZeroMB(T1s +1 : array_end);
 
 
 	%% you CAVCL comments 
@@ -43,10 +47,13 @@ for  i=1:length(level)
     % The prefix is a string of zeros followed by a one, with the number of zeros indicating the magnitude of the level code
     % The suffix is a binary representation of the level code, with a length equal to the calculated suffix length
     % Special cases are handled to accommodate large coefficients
+%%
     if bitshift(i_level_code,-i_sufx_len)<14
 	%intout = bitshift(A,k) returns A shifted to the left by k bits, equivalent to multiplying by 2k. 
 	%Negative values of k correspond to shifting bits right or dividing by 2|k| and rounding to the nearest integer towards negative infinity. Any overflow bits are truncated.
         level_prfx = bitshift(i_level_code,-i_sufx_len);
+        
+% Note it's an interesting part to add in hardware
         while(level_prfx>0)
             bits = [bits '0'];
             level_prfx = level_prfx - 1;
@@ -61,6 +68,10 @@ for  i=1:length(level)
             end
             bits = [bits level_sufx];
         end
+        % here finishing handling prefix and suffix for the first case if bitshift(i_level_code,-i_sufx_len)<14
+
+
+%{
     % Special handling of the encoding for larger coefficients (when level code is less than 30 and suffix length is 0)
     elseif (i_sufx_len==0)&(i_level_code<30)
        level_prfx = 14;
@@ -118,7 +129,8 @@ for  i=1:length(level)
             end
         bits = [bits level_sufx];
     end
-    
+%}  
+%%
     % Update the suffix length for the next coefficient
     if i_sufx_len==0
         i_sufx_len = i_sufx_len + 1;
@@ -128,12 +140,6 @@ for  i=1:length(level)
     end
 end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    if i_sufx_len==0
-        i_sufx_len = i_sufx_len + 1;
-    end
-    if ((abs(level(i)))>bitshift(3,i_sufx_len - 1))&(i_sufx_len<6)
-        i_sufx_len = i_sufx_len + 1;
-    end
+
 end
 
